@@ -139,9 +139,9 @@ function router(route, render) {
         if (!route.endsWith(".fresh")) {
             route = route + ".fresh"
         }
-        
-        if (route === ".fresh" || routesPath + ".fresh") {
-            route = createPath([routesPath, "index.fresh"])
+
+        if (route === ".fresh" || route === createPath([routesPath, ".fresh"])) {
+            route = routesPath + "/index.fresh"
         }
 
         let routeData = await fetch(route);
