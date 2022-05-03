@@ -12,7 +12,7 @@ async function fetchConfig() {
 }
 
 function initalize() {
-    router()
+    checkHash()
     getImports()
 }
 
@@ -98,7 +98,8 @@ async function fetchComponentData(component) {
 
 
 
-// Fresh router
+// Fresh legacy router
+/*
 function router() {
     const routesPath = createPath([config.fresh.root ,config.fresh.router.routes])
     let entryPoint = document.querySelector(config.fresh.router.entryPoint);
@@ -126,9 +127,58 @@ function router() {
     fetchRoute(createPath([routesPath, "index.fresh"]), true)
 
 
-    
+}*/
+
+// Fresh router
+function router(route, render) {
+    // const routesPath = createPath([config.fresh.root ,config.fresh.router.routes])
+    let entryPoint = document.querySelector(config.fresh.router.entryPoint);
+
+    async function fetchRoute(route, render) {
+
+        if (!route.endsWith(".fresh")) {
+            route = route + ".fresh"
+        }
+
+        if (route === ".fresh") {
+            route = "index.fresh"
+        }
+
+        let routeData = await fetch(route);
+        let data = await routeData.text();
+        routeData = data;
+
+        if (render) {
+            renderRoute(routeData)
+        }
+        
+        getImports()
+        return routeData;
+    }
+
+    function renderRoute(data) {
+        entryPoint.innerHTML = ""
+        entryPoint.insertAdjacentHTML("afterbegin", data)    
+    }
+
+    fetchRoute(route, render)
 
 }
+
+window.onhashchange = () => {
+
+    checkHash()
+
+}
+
+function checkHash() {
+    if (!window.location.hash || window.location.hash === "") {
+        router(createPath([config.fresh.root, config.fresh.router.routes, "index"]), true)
+    } else {
+        router(createPath([config.fresh.root, config.fresh.router.routes, window.location.hash.replace("#/", "")]), true)
+    }
+}
+
 
 
 
