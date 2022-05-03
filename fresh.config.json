@@ -1,11 +1,11 @@
 {
     "fresh": {
-        "root": "%fresh",
-        "components": "%components",
+        "root": "fresh",
+        "components": "components",
         
         "router": {
             "entryPoint": "body",
-            "routes": "%routes"
+            "routes": "routes"
         }
     }
 }
