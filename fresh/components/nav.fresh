@@ -1,1 +1,4 @@
-<a href="/#/route"> I'm a link </a>
+<nav>
+    <a href="/#"> Main page </a>
+    <a href="/#/route"> Route </a>
+</nav>

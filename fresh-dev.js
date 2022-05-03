@@ -131,7 +131,7 @@ function router() {
 
 // Fresh router
 function router(route, render) {
-    // const routesPath = createPath([config.fresh.root ,config.fresh.router.routes])
+    const routesPath = createPath([config.fresh.root ,config.fresh.router.routes])
     let entryPoint = document.querySelector(config.fresh.router.entryPoint);
 
     async function fetchRoute(route, render) {
@@ -139,9 +139,9 @@ function router(route, render) {
         if (!route.endsWith(".fresh")) {
             route = route + ".fresh"
         }
-
-        if (route === ".fresh") {
-            route = "index.fresh"
+        
+        if (route === ".fresh" || routesPath + ".fresh") {
+            route = createPath([routesPath, "index.fresh"])
         }
 
         let routeData = await fetch(route);
@@ -157,8 +157,7 @@ function router(route, render) {
     }
 
     function renderRoute(data) {
-        entryPoint.innerHTML = ""
-        entryPoint.insertAdjacentHTML("afterbegin", data)    
+        entryPoint.innerHTML = data
     }
 
     fetchRoute(route, render)
