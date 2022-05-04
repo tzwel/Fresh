@@ -16,7 +16,6 @@ async function fetchConfig() {
 function initalize() {
     checkHash()
     getImports()
-    transitions()
 }
 
 // get all elements with the import tag
@@ -134,17 +133,19 @@ function router(route, render) {
 
                 let routeData = await fetch(route);
                 let data = await routeData.text();
-                routeData = data;        
+                routeData = data;       
+                
+                const parsedData = parseRouteData(routeData)
 
                 TPMRouteNames.push(route)
-                TPMRouteData.push(routeData)
+                TPMRouteData.push(parsedData)
 
-                renderRoute(routeData)
+                renderRoute(parsedData)
                 getImports()
                 window.dispatchEvent(routed);
 
 
-            } else {
+            } else {                
                 const routeIndex = TPMRouteNames.indexOf(route.toLowerCase())
                 renderRoute(TPMRouteData[routeIndex])
                 getImports()
@@ -159,16 +160,10 @@ function router(route, render) {
     }
 
     fetchRoute(route, render)
-
-
-
-
 }
 
 window.onhashchange = () => {
-
     checkHash()
-
 }
 
 function checkHash() {
@@ -179,6 +174,10 @@ function checkHash() {
     }
 }
 
+
+function parseRouteData(routeData) {
+    return routeData
+}
 
 // custom router events
 const routing = new Event('routing');
