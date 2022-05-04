@@ -2,6 +2,8 @@
     "fresh": {
         "root": "fresh",
         "components": "components",
+
+        "storeRoutesInTPM": false,
         
         "router": {
             "entryPoint": "body",

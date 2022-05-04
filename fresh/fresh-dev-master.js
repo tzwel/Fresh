@@ -24,39 +24,46 @@ function getImports() {
 
         useComponent(component)
 
-
     });
 
 }
 
 // a call telling Fresh that a component is being used
 function useComponent(component) {
+    const optionalPath = component.getAttribute("import");
+
     let componentName = component.tagName.toString().toLowerCase();
 
     if (!importedComponentTags.includes(component.tagName.toLowerCase())) {
 
         const imp = async function() {
-            const data = await importComponent(componentName)
+            const data = await importComponent(componentName, optionalPath);
             renderComponent(component, data)
         }
         imp()
 
     } else {
-        console.log(`${component.tagName.toLowerCase()} was already imported, reading from tpm`);
+    //    console.log(`${component.tagName.toLowerCase()} was already imported, reading from TPM`);
         const componentIndex = importedComponentTags.indexOf(component.tagName.toLowerCase())
         renderComponent(component, importedComponentData[componentIndex])
     }
 
 }
 
-async function importComponent(componentName) {
+async function importComponent(componentName, optionalPath) {
+
+    let componentPath;
 
 
     if (!componentName.endsWith(".fresh")) {
         componentName = componentName + ".fresh"
     }
 
-    const componentPath = createPath([config.fresh.root, config.fresh.components, componentName]);
+    if (!optionalPath) {
+        componentPath = createPath([config.fresh.root, config.fresh.components, componentName]);
+    } else {
+        componentPath = createPath([config.fresh.root, config.fresh.components, optionalPath, componentName]);
+    }
 
     let componentData = await fetch(componentPath);
     let data = await componentData.text();
@@ -64,8 +71,6 @@ async function importComponent(componentName) {
 
     importedComponentTags.push(componentName.toString().replace(".fresh", ""))
     importedComponentData.push(componentData.toString())
-
-    
 
     return componentData
 }
@@ -76,6 +81,10 @@ function renderComponent(where, data) {
 
 
 // Fresh router
+
+let TPMRouteNames = [];
+let TPMRouteData = [];
+
 function router(route, render) {
     const routesPath = createPath([config.fresh.root ,config.fresh.router.routes])
     let entryPoint = document.querySelector(config.fresh.router.entryPoint);
@@ -90,21 +99,34 @@ function router(route, render) {
             route = routesPath + "/index.fresh"
         }
 
+        window.dispatchEvent(routing);
+        console.log(`fetching route ${route}`);
+
+
         let routeData = await fetch(route);
         let data = await routeData.text();
         routeData = data;
 
-        if (render) {
-            renderRoute(routeData)
+        if (!config.fresh.storeRoutesInTPM) {
+            if (render) {
+                renderRoute(routeData)
+                window.dispatchEvent(routing);
+                console.log(`routed to ${route}`);
+            }
+            
+            getImports()
         }
-        
-        getImports()
-        return routeData;
+
     }
 
     function renderRoute(data) {
         entryPoint.innerHTML = data
     }
+
+    /*
+    if (!tpmRouteNames.includes(route.toLowerCase())) {
+
+    }*/
 
     fetchRoute(route, render)
 
@@ -125,6 +147,9 @@ function checkHash() {
 }
 
 
+// custom router events
+const routing = new Event('routing');
+const routed = new Event('routed');
 
 
 function createPath(params) {

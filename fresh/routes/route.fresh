@@ -1,3 +1,5 @@
 <nav import></nav>
 
-<h1> This is a route you can navigate to (and from) </h1>
+<p> This is a route you can navigate to (and from) </p>
+
+<nested import="nested"></nested>
