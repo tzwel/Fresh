@@ -14,6 +14,30 @@ Fresh is designed as an easy to use and grasp framework, that you can learn in m
 ### Not opinionated, but standardized
 Fresh doesn't tell you how to organize your project, but rather guides you to a standard by using defaults that you shouldn't ever need to change. However, if you ever need to, nothing will break and you will be able to develop without any hiccups, Fresh is a framework focused on the developer.
 
+### Config
+Every Fresh app needs a `fresh.config.json` to run. Here's a basic config file:
+```json
+{
+    "fresh": {
+        "root": "fresh",
+        "components": "components",
+
+        "storeRoutesInTPM": true,
+        
+        "router": {
+            "entryPoint": "app",
+            "routes": "routes"
+        }
+    }
+}
+```
+What does all of this mean?
+`root` - the root folder Fresh resides in
+`components` - you store your components in this directory
+`storeRoutesInTPM` - head to [TPM](#TPM) for a brief explanation
+`entryPoint` - the element your routes get injected in, it's basically where your webapp lives
+`routes` - you store your routes (pages) in this directory
+
 ### Components
 You declare your components in files ending with the `.fresh` extension, in the `components` directory specified in the config.
 
