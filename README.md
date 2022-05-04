@@ -9,13 +9,6 @@ Fresh is designed as an easy to use and grasp framework, that you can learn in m
 
 ⚠ **Fresh is a personal side-project. It's heavily work-in-progress and lots of features are still not implemented, or not working correctly. It's NOT suitable for production yet.** ⚠
 
-----
-
-<p> Table of contents </p>
-<a href="#Main_concepts"> Main concepts </a>
-
-----
-
 ## Main concepts
 
 ### Not opinionated, but standardized
