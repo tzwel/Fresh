@@ -10,7 +10,7 @@ Fresh is designed as a easy to use and grasp framework, that you can learn in mi
 ## Main concepts
 
 ### Components
-You declare your components in files ending with the `.fresh` extension, in the components directory specified in the config.
+You declare your components in files ending with the `.fresh` extension, in the `components` directory specified in the config.
 
 On default it's `./fresh/components`
 
