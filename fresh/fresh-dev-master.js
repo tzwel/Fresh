@@ -51,7 +51,6 @@ function useComponent(component) {
 
 async function importComponent(componentName) {
 
-    importedComponentTags.push(componentName.toString())
 
     if (!componentName.endsWith(".fresh")) {
         componentName = componentName + ".fresh"
@@ -63,7 +62,10 @@ async function importComponent(componentName) {
     let data = await componentData.text();
     componentData = data;
 
+    importedComponentTags.push(componentName.toString().replace(".fresh", ""))
     importedComponentData.push(componentData.toString())
+
+    
 
     return componentData
 }
