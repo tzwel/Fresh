@@ -11,8 +11,8 @@ Fresh is designed as an easy to use and grasp framework, that you can learn in m
 
 ----
 
-<p align="center"> Table of contents </p>
-<a align="center" href="#Main_concepts"> Main concepts </a>
+<p> Table of contents </p>
+<a href="#Main_concepts"> Main concepts </a>
 
 ----
 
