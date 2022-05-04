@@ -68,6 +68,12 @@ function getImports() {
 
 }
 
+// a call telling Fresh that a component is being used
+function useComponent(component) {
+    let componentName = component.tagName.toString().toLowerCase();
+}
+
+
 // get text data of components
 async function fetchComponentData(component) {
  
