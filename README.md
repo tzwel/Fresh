@@ -54,7 +54,7 @@ Even though a `<noscript>` tag informing the user about disabled javascript shou
 
 ### Routing
 Fresh comes with a router that automatically fetches the correct route and loads it when it's requested.
-You link between routes by using appending `/#/` at the beggining of a route, so Fresh knows when to reload.
+You link between routes by appending `/#/` at the beggining of a route, so Fresh knows when to reroute.
 
 An example of linking to another page called `route`:
 ```html
@@ -64,4 +64,4 @@ An example of linking to another page called `route`:
 ### TPM
 Tpm - standing for **Temporary Memory** is easiest to understand by just comparing it to cache, with the difference of it immediately clearing after realoding the page.
 
-All your components and routes (`storeRoutesInTPM` in the config) are stored in TPM, and loaded when needed, minimizing the amount of requests sent to the server and making the app faster by storing already used data client-side.
+All your components and routes (`storeRoutesInTPM` in the config) are stored in TPM and loaded when needed, minimizing the amount of requests sent to the server and making the app faster by storing already used data client-side.
