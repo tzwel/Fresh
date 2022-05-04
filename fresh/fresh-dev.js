@@ -1,6 +1,7 @@
 let config;
 let importedComponentTags = [];
 let importedComponentData = [];
+let firstload = false;
 
 // Get the config from "./fresh.config.json" on app start
 async function fetchConfig() {

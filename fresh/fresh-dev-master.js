@@ -1,6 +1,8 @@
 let config;
 let importedComponentTags = [];
 let importedComponentData = [];
+let firstload = false;
+
 
 // Get the config from "./fresh.config.json" on app start
 async function fetchConfig() {
@@ -14,6 +16,7 @@ async function fetchConfig() {
 function initalize() {
     checkHash()
     getImports()
+    transitions()
 }
 
 // get all elements with the import tag
@@ -27,8 +30,14 @@ function getImports() {
         imported++;
 
         if (imports.length === imported) {
+            // this is known to not work correctly
             window.dispatchEvent(routeLoaded);
-            console.log(`route components loaded`);        
+            
+            if (!firstload) {
+                firstload = true;
+                window.dispatchEvent(firstLoad);
+            }
+
         }
 
     });
@@ -106,19 +115,40 @@ function router(route, render) {
         }
 
         window.dispatchEvent(routing);
-        console.log(`fetching route ${route}`);
-
-
-        let routeData = await fetch(route);
-        let data = await routeData.text();
-        routeData = data;
 
         if (!config.fresh.storeRoutesInTPM) {
+            console.log(`fetching route ${route}`);
+
+            let routeData = await fetch(route);
+            let data = await routeData.text();
+            routeData = data;
+
             if (render) {
                 renderRoute(routeData)
                 getImports()
                 window.dispatchEvent(routed);
-                console.log(`routed to ${route}`);
+            }
+        } else {
+
+            if (!TPMRouteNames.includes(route.toLowerCase())) {
+
+                let routeData = await fetch(route);
+                let data = await routeData.text();
+                routeData = data;        
+
+                TPMRouteNames.push(route)
+                TPMRouteData.push(routeData)
+
+                renderRoute(routeData)
+                getImports()
+                window.dispatchEvent(routed);
+
+
+            } else {
+                const routeIndex = TPMRouteNames.indexOf(route.toLowerCase())
+                renderRoute(TPMRouteData[routeIndex])
+                getImports()
+                window.dispatchEvent(routed);
             }
         }
 
@@ -128,12 +158,10 @@ function router(route, render) {
         entryPoint.innerHTML = data
     }
 
-    /*
-    if (!tpmRouteNames.includes(route.toLowerCase())) {
-
-    }*/
-
     fetchRoute(route, render)
+
+
+
 
 }
 
@@ -156,6 +184,7 @@ function checkHash() {
 const routing = new Event('routing');
 const routed = new Event('routed');
 const routeLoaded = new Event('routeLoaded');
+const firstLoad = new Event('firstLoad');
 
 
 function createPath(params) {

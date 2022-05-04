@@ -3,10 +3,10 @@
         "root": "fresh",
         "components": "components",
 
-        "storeRoutesInTPM": false,
+        "storeRoutesInTPM": true,
         
         "router": {
-            "entryPoint": "body",
+            "entryPoint": "app",
             "routes": "routes"
         }
     }
