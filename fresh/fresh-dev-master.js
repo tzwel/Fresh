@@ -19,13 +19,19 @@ function initalize() {
 // get all elements with the import tag
 function getImports() {
     const imports = document.querySelectorAll("*[import]")
+    let imported = 0;
 
     imports.forEach(component => {
 
         useComponent(component)
+        imported++;
+
+        if (imports.length === imported) {
+            window.dispatchEvent(routeLoaded);
+            console.log(`route components loaded`);        
+        }
 
     });
-
 }
 
 // a call telling Fresh that a component is being used
@@ -110,11 +116,10 @@ function router(route, render) {
         if (!config.fresh.storeRoutesInTPM) {
             if (render) {
                 renderRoute(routeData)
-                window.dispatchEvent(routing);
+                getImports()
+                window.dispatchEvent(routed);
                 console.log(`routed to ${route}`);
             }
-            
-            getImports()
         }
 
     }
@@ -150,6 +155,7 @@ function checkHash() {
 // custom router events
 const routing = new Event('routing');
 const routed = new Event('routed');
+const routeLoaded = new Event('routeLoaded');
 
 
 function createPath(params) {
