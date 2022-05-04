@@ -40,6 +40,27 @@ You would usually want to organize your components in different subfolders. If y
 <nav import="foo/bar"></nav>
 ```
 
+#### Fallback
+When a component fails to load, your users won't get an easy to understand error message on the screen, so you must ensure that the most crucial components on your page provide at least a hint that something went wrong
+
+While it should be almost impossible for a component to not load correctly, there are still the edge cases you need to be prepared for.
+
+Here's an example of the `nav` component with a fallback
+```html
+<nav import> The website navigation failed to load </nav>
+```
+
+Even though a `<noscript>` tag informing the user about disabled javascript should be enough, adding a fallback message is still a good practice.
+
+### Routing
+Fresh comes with a router that automatically fetches the correct route and loads it when it's requested.
+You link between routes by using appending `/#/` at the beggining of a route, so Fresh knows when to reload.
+
+An example of linking to another page called `route`:
+```html
+<a href="/#/route"> A link </a>
+```
+
 ### TPM
 Tpm - standing for **Temporary Memory** is easiest to understand by just comparing it to cache, with the difference of it immediately clearing after realoding the page.
 
