@@ -12,7 +12,7 @@ Fresh is designed as an easy to use and grasp framework, that you can learn in m
 ## Main concepts
 
 ### Not opinionated, but standardized
-Fresh doesn't tell you how to organize your project, but guides you to a standard by using defaults that you shouldn't ever need to change. However, if you ever need to, nothing will break and you will be able to develop without any hiccups, Fresh is a framework focused on the developer.
+Fresh doesn't tell you how to organize your project, but rather guides you to a standard by using defaults that you shouldn't ever need to change. However, if you ever need to, nothing will break and you will be able to develop without any hiccups, Fresh is a framework focused on the developer.
 
 ### Components
 You declare your components in files ending with the `.fresh` extension, in the `components` directory specified in the config.
