@@ -115,8 +115,7 @@ function router(route, render) {
 
         window.dispatchEvent(routing);
 
-        if (!config.fresh.storeRoutesInTPM) {
-            console.log(`fetching route ${route}`);
+        if (!config.fresh.router.storeRoutesInTPM) {
 
             let routeData = await fetch(route);
             let data = await routeData.text();
@@ -131,18 +130,47 @@ function router(route, render) {
 
             if (!TPMRouteNames.includes(route.toLowerCase())) {
 
-                let routeData = await fetch(route);
-                let data = await routeData.text();
-                routeData = data;       
-                
-                const parsedData = parseRouteData(routeData)
+                try {
+                    let routeData = await fetch(route);
 
-                TPMRouteNames.push(route)
-                TPMRouteData.push(parsedData)
+                    if (routeData.ok) {
+                        let data = await routeData.text();
+                        routeData = data;       
+                        
+                        const parsedData = parseRouteData(routeData)
+        
+                        TPMRouteNames.push(route)
+                        TPMRouteData.push(parsedData)
+        
+                        renderRoute(parsedData)
+                        getImports()
+                        window.dispatchEvent(routed);
+                    } else {
 
-                renderRoute(parsedData)
-                getImports()
-                window.dispatchEvent(routed);
+                        // check whether the app is handling 404 as a route or a static .html file
+                        if (config.fresh.router.errorRoute) {
+                            let routeData = await fetch(createPath([routesPath, "404.fresh"]));
+                            let data = await routeData.text();
+                            routeData = data;       
+                            
+                            const parsedData = parseRouteData(routeData)
+            
+                            TPMRouteNames.push(route)
+                            TPMRouteData.push(parsedData)
+            
+                            renderRoute(parsedData)
+                            getImports()
+                            window.dispatchEvent(routed);    
+
+                        } else {
+                            window.location = "404.html"
+                        }
+
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                }
 
 
             } else {                

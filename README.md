@@ -21,10 +21,9 @@ Every Fresh app needs a `fresh.config.json` to run. Here's a basic config file:
     "fresh": {
         "root": "fresh",
         "components": "components",
-
-        "storeRoutesInTPM": true,
         
         "router": {
+            "storeRoutesInTPM": true,
             "entryPoint": "app",
             "routes": "routes"
         }
