@@ -32,9 +32,13 @@ Every Fresh app needs a `fresh.config.json` to run. Here's a basic config file:
 ```
 What does all of this mean?
 `root` - the root folder Fresh resides in
+
 `components` - you store your components in this directory
+
 `storeRoutesInTPM` - head to [TPM](#TPM) for a brief explanation
+
 `entryPoint` - the element your routes get injected in, it's basically where your webapp lives
+
 `routes` - you store your routes (pages) in this directory
 
 ### Components
