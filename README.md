@@ -7,7 +7,7 @@ A fresh approach to creating single page apps
 
 Fresh is designed as an easy to use and grasp framework, that you can learn in minutes. It's currently focused on `SPA`s but this might change in the future.
 
-⚠ **Fresh is a personal side-project. It's heavily work-in-progress and lots of features are still not implemented, or not working correctly. It's NOT suitable for production yet.** ⚠
+⚠ **Fresh is a personal side-project. It's heavily work-in-progress and lots of features are still not implemented, or are not working correctly. It's NOT suitable for production yet.** ⚠
 
 ## Main concepts
 
@@ -31,10 +31,15 @@ Every Fresh app needs a `fresh.config.json` to run. Here's a basic config file:
 }
 ```
 What does all of this mean?
+
 `root` - the root folder Fresh resides in
+
 `components` - you store your components in this directory
+
 `storeRoutesInTPM` - head to [TPM](#TPM) for a brief explanation
+
 `entryPoint` - the element your routes get injected in, it's basically where your webapp lives
+
 `routes` - you store your routes (pages) in this directory
 
 ### Components
@@ -85,6 +90,6 @@ An example of linking to another page called `route`:
 ```
 
 ### TPM
-Tpm - standing for **Temporary Memory** is easiest to understand by just comparing it to cache, with the difference of it immediately clearing after realoding the page.
+TPM - standing for **Temporary Memory** is easiest to understand by just comparing it to cache, with the difference of it immediately clearing after realoding the page.
 
 All your components and routes (`storeRoutesInTPM` in the config) are stored in TPM and loaded when needed, minimizing the amount of requests sent to the server and making the app faster by storing already used data client-side.
