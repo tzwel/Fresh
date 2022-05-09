@@ -19,7 +19,7 @@ function initalize() {
 }
 
 // get all elements with the import tag
-function getImports() {
+async function getImports() {
     const imports = document.querySelectorAll("*[import]")
     let imported = 0;
 
@@ -43,7 +43,7 @@ function getImports() {
 }
 
 // a call telling Fresh that a component is being used
-function useComponent(component) {
+async function useComponent(component) {
     const optionalPath = component.getAttribute("import");
 
     let componentName = component.tagName.toString().toLowerCase();
