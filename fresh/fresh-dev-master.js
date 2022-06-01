@@ -2,7 +2,16 @@ let config;
 let importedComponentTags = [];
 let importedComponentData = [];
 let firstload = false;
+let renderedComponents = 0;
+const scriptRegex = /<script>([\s\S]*?)<\/script>/
+const variableInitRegex = /(?<="init ).+?(?=")/g;
 
+function $qsa(p) {
+    return document.querySelectorAll(p)
+}
+function $qs(p) {
+    return document.querySelector(p)
+}
 
 // Get the config from "./fresh.config.json" on app start
 async function fetchConfig() {
@@ -10,27 +19,31 @@ async function fetchConfig() {
     let parsed = await getconfig.json();
     config = parsed;
 
-    initalize()
+    initialize()
 }
 
-function initalize() {
+function initialize() {
     checkHash()
-    getImports()
 }
 
 // get all elements with the import tag
 async function getImports() {
     const imports = document.querySelectorAll("*[import]")
     let imported = 0;
+    renderedComponents = 0;
 
     imports.forEach(component => {
 
         useComponent(component)
         imported++;
 
+        if (imports.length === renderedComponents) {
+            // console.log("debug");
+        }
+
         if (imports.length === imported) {
             // this is known to not work correctly
-            window.dispatchEvent(routeLoaded);
+            window.dispatchEvent(routscriptMatchesaded);
             
             if (!firstload) {
                 firstload = true;
@@ -90,6 +103,7 @@ async function importComponent(componentName, optionalPath) {
 }
 
 function renderComponent(where, data) {
+    renderedComponents++
     where.outerHTML = data
 }
 
@@ -100,7 +114,7 @@ let TPMRouteNames = [];
 let TPMRouteData = [];
 
 function router(route, render) {
-    const routesPath = createPath([config.fresh.root ,config.fresh.router.routes])
+    const routesPath = createPath([config.fresh.root, config.fresh.router.routes])
     let entryPoint = document.querySelector(config.fresh.router.entryPoint);
 
     async function fetchRoute(route, render) {
@@ -145,6 +159,10 @@ function router(route, render) {
                         renderRoute(parsedData)
                         getImports()
                         window.dispatchEvent(routed);
+
+                        handleScripts(parsedData)
+
+
                     } else {
 
                         // check whether the app is handling 404 as a route or a static .html file
@@ -160,7 +178,9 @@ function router(route, render) {
             
                             renderRoute(parsedData)
                             getImports()
-                            window.dispatchEvent(routed);    
+                            window.dispatchEvent(routed);   
+                            
+                            handleScripts(parsedData)
 
                         } else {
                             window.location = "404.html"
@@ -178,6 +198,7 @@ function router(route, render) {
                 renderRoute(TPMRouteData[routeIndex])
                 getImports()
                 window.dispatchEvent(routed);
+                handleScripts(TPMRouteData[routeIndex])
             }
         }
 
@@ -202,15 +223,56 @@ function checkHash() {
     }
 }
 
-
-function parseRouteData(routeData) {
+function parseRouteData(routeData) {  
     return routeData
+}
+
+function handleScripts(routeData) {
+    // only supports staying in tpm
+    // look for <script> tags
+    const scriptMatches = routeData.match(scriptRegex)
+    if (!scriptMatches || scriptMatches.length <= 1) {
+        // console.log("no script tag");
+    } else if (scriptMatches && scriptMatches.length <= 2)  {
+
+      //  console.log(scriptMatches[1]);
+
+
+      scriptMatches[1] =  scriptMatches[1].replace(/\$var/g, 'window')
+
+
+        // this may not work as expected
+        const variableInitMatches = scriptMatches[1].match(variableInitRegex)
+       // console.log(variableInitMatches);
+
+
+        variableInitMatches.forEach(variable => {
+
+            if (window[variable] === undefined) {
+                const createvar = Function(`return window.${variable} = 0;`)
+                createvar()
+                //console.log("Xd");
+            } else {
+                console.log("variable exists");
+            }
+
+        });
+
+
+
+            // exec code TODO
+        const evaluated = Function(`${scriptMatches[1]}`)
+        evaluated()
+
+    } else {
+        console.log("A route can have only 1 script tag");
+    }
 }
 
 // custom router events
 const routing = new Event('routing');
 const routed = new Event('routed');
-const routeLoaded = new Event('routeLoaded');
+const routscriptMatchesaded = new Event('routscriptMatchesaded');
 const firstLoad = new Event('firstLoad');
 
 
