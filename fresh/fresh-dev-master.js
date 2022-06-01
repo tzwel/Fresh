@@ -246,6 +246,7 @@ function handleScripts(routeData) {
        // console.log(variableInitMatches);
 
 
+       if (variableInitMatches) {
         variableInitMatches.forEach(variable => {
 
             if (window[variable] === undefined) {
@@ -256,7 +257,8 @@ function handleScripts(routeData) {
                 console.log("variable exists");
             }
 
-        });
+        });      
+    }
 
 
 
