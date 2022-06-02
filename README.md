@@ -24,6 +24,7 @@ Every Fresh app needs a `fresh.config.json` to run. Here's a basic config file:
         
         "router": {
             "storeRoutesInTPM": true,
+            "errorRoute": true,
             "entryPoint": "app",
             "routes": "routes"
         }
@@ -37,6 +38,8 @@ What does all of this mean?
 `components` - you store your components in this directory
 
 `storeRoutesInTPM` - head to [TPM](#TPM) for a brief explanation
+
+`errorRoute` - whether to redirect 404 errors to a custom 404.fresh route, or not
 
 `entryPoint` - the element your routes get injected in, it's basically where your webapp lives
 
