@@ -14,10 +14,20 @@ function $qs(p) {
 }
 
 // Get the config from "./fresh.config.json" on app start
-async function fetchConfig() {
-    let getconfig = await fetch("./fresh.config.json");
-    let parsed = await getconfig.json();
-    config = parsed;
+async function getConfig() {
+
+    if (typeof Fresh === 'undefined') {
+
+        // if config not declared in index
+
+        let getconfig = await fetch("./fresh.config.json");
+        let parsed = await getconfig.json();
+        config = parsed;
+    
+        console.log(config);
+    } else {
+        config = Fresh
+    }
 
     initialize()
 }
@@ -159,8 +169,10 @@ function router(route, render) {
                         renderRoute(parsedData)
                         getImports()
                         window.dispatchEvent(routed);
-
+                    
                         handleScripts(parsedData)
+
+                        window.dispatchEvent(firstRouteLoad); 
 
 
                     } else {
@@ -178,9 +190,11 @@ function router(route, render) {
             
                             renderRoute(parsedData)
                             getImports()
-                            window.dispatchEvent(routed);   
-                            
+
                             handleScripts(parsedData)
+
+                            window.dispatchEvent(routed); 
+                            
 
                         } else {
                             window.location = "404.html"
@@ -246,19 +260,19 @@ function handleScripts(routeData) {
        // console.log(variableInitMatches);
 
 
-       if (variableInitMatches) {
-        variableInitMatches.forEach(variable => {
+        if (variableInitMatches) {
+            variableInitMatches.forEach(variable => {
 
-            if (window[variable] === undefined) {
-                const createvar = Function(`return window.${variable} = 0;`)
-                createvar()
-                //console.log("Xd");
-            } else {
-                console.log("variable exists");
-            }
-
-        });      
-    }
+                if (window[variable] === undefined) {
+                    const createvar = Function(`return window.${variable} = 0;`)
+                    createvar()
+                    //console.log("Xd");
+                } else {
+                    console.log("variable exists");
+                }
+    
+            });      
+        }
 
 
 
@@ -276,6 +290,7 @@ const routing = new Event('routing');
 const routed = new Event('routed');
 const routscriptMatchesaded = new Event('routscriptMatchesaded');
 const firstLoad = new Event('firstLoad');
+const firstRouteLoad = new Event('firstRouteLoad');
 
 
 function createPath(params) {
@@ -288,4 +303,4 @@ function createPath(params) {
 
 
 // initalize app
-fetchConfig()
+getConfig()
