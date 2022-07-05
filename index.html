@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> 🧊 </title>
     <script defer src="fresh/fresh-dev-master.js"></script>
-    <script defer src="transitions.js"></script>
     <style>
         body {
             margin: 0;
             background-color: rgb(29, 29, 29);
-            color: #fff;
+            color: rgb(246, 246, 246);
         }
         app {
             font-family: sans-serif;
@@ -25,67 +24,32 @@
             margin-left: 1em;
         }
         a {
-            color: rgb(21, 123, 218);
+            color: rgb(221, 255, 72);
         }
         .nested {
             padding: 1em;
-            border: 2px solid rgb(21, 123, 218)
-        }
-        loader {
-            display: flex;
-            width: 100%;
-            opacity: 4px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            position: relative;
-        }
-        progressbar {
-            display: flex;
-            width: 0%;
-            height: 4px;
-            opacity: 0;
-            position: absolute;
-            background-color: rgb(21, 123, 218)
+            border: 2px solid rgb(221, 255, 72);
         }
 
-        @keyframes loading {
-            100% {
-                width: 0%;
-                max-width: 70%;
-                width: 100%;
-                opacity: 1;
-            }
-        }
-
-        @keyframes loaded {
-            0% {
-                width: 100%;
-                max-width: 70%;
-                width: 100%;
-                opacity: 1;
-            }
-            100% {
-                max-width: 100%;
-                width: 100%;
-                opacity: 0;
-            }
-        }
-
-        .loading progressbar {
-            animation-name: loading;
-            animation-duration: 1s;
-            animation-fill-mode: forwards;
-        }
-        .loaded progressbar {
-            animation-name: loaded;
-            animation-duration: .33s;
-            animation-fill-mode: forwards;
-        }
     </style>
 </head>
 <body>
-    <loader import></loader>
     <app></app>
+
+    <script>
+        const Fresh = {
+            "fresh": {
+                "root": "fresh",
+                "components": "components",
+
+                "router": {
+                    "storeRoutesInTPM": true,
+                    "errorRoute": true,
+                    "entryPoint": "app",
+                    "routes": "routes"
+                }
+            }
+        };
+    </script>
 </body>
 </html>
