@@ -15,7 +15,7 @@ Fresh is designed as an easy to use and grasp framework, that you can learn in m
 Fresh doesn't tell you how to organize your project, but rather guides you to a standard by using defaults that you shouldn't ever need to change. However, if you ever need to, nothing will break and you will be able to develop without any hiccups, Fresh is a framework focused on the developer.
 
 ### Config
-Every Fresh app needs a `fresh.config.json` to run. Here's a basic config file:
+Every Fresh app needs a `config` to run. Here's a basic `fresh.config.json` file:
 ```json
 {
     "fresh": {
@@ -31,6 +31,28 @@ Every Fresh app needs a `fresh.config.json` to run. Here's a basic config file:
     }
 }
 ```
+
+A config can (and should) also be declared directly in the `index.html` in a `<script>` tag, this is the preferred way:
+```html
+    <script>
+        const Fresh = {
+            "fresh": {
+                "root": "fresh",
+                "components": "components",
+
+                "router": {
+                    "storeRoutesInTPM": true,
+                    "errorRoute": true,
+                    "entryPoint": "app",
+                    "routes": "routes"
+                }
+            }
+        };
+    </script>
+```
+
+
+
 What does all of this mean?
 
 `root` - the root folder Fresh resides in
