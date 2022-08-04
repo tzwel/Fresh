@@ -1,1 +1,0 @@
-Fresh doesn't tell you how to organize your project, but rather guides you to a standard by using defaults that you shouldn't need to change. However, if you ever need to, nothing will break and you will be able to develop without any hiccups, Fresh is a framework focused on the developer.
