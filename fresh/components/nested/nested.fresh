@@ -1,5 +1,0 @@
-<div class="nested">
-    <p> I'm imported from a subdirectory! </p>
-    <p> find me in <code>components/nested/nested.fresh</code> </p>
-    <a href="/#/secret"> Secret route </a>
-</div>

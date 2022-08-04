@@ -1,5 +1,0 @@
-<nav import></nav>
-
-<p> This is a route you can navigate to (and from) </p>
-
-<nested import="nested"></nested>
