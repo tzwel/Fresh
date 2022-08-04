@@ -1,0 +1,25 @@
+site_name: Fresh Docs
+
+theme:
+  name: material
+  
+  features:
+    - navigation.tabs
+
+nav:
+  - Intro:
+    - index.md
+
+  - Main concepts:
+    - Not opinionated, but standardized: main concepts.md
+    - config.md
+    - tpm.md
+    - Components:
+      - components.md
+      - Importing components: importing.md
+    - routing.md
+    - fallback.md
+
+  - Dive in:
+    - aliases.md
+    - per route variables.md
