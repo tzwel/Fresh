@@ -1,3 +1,5 @@
+* The docs are here! Read them at [https://tzwel.github.io/fresh/]()
+
 # 🧊 Fresh
 A fresh approach to creating single page apps
 
