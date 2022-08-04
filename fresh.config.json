@@ -1,0 +1,13 @@
+{
+    "fresh": {
+        "root": "fresh",
+        "components": "components",
+        
+        "router": {
+            "storeRoutesInTPM": true,
+            "errorRoute": true,
+            "entryPoint": "app",
+            "routes": "routes"
+        }
+    }
+}
