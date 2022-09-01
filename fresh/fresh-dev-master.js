@@ -4,6 +4,7 @@ let importedComponentData = [];
 let firstload = false;
 let renderedComponents = 0;
 const scriptRegex = /<script>([\s\S]*?)<\/script>/
+const styleRegex = /<style>([\s\S]*?)<\/style>/
 const variableInitRegex = /(?<="init ).+?(?=")/g;
 
 function $qsa(p) {
@@ -139,6 +140,11 @@ function router(route, render) {
 
         window.dispatchEvent(routing);
 
+        document.head.querySelectorAll('[scoped]')
+        .forEach(scoped => {
+            scoped.remove()
+        });
+
         if (!config.fresh.router.storeRoutesInTPM) {
 
             let routeData = await fetch(route);
@@ -170,6 +176,7 @@ function router(route, render) {
                         getImports()
                         window.dispatchEvent(routed);
                     
+                        handleStyles(parsedData)
                         handleScripts(parsedData)
 
                         window.dispatchEvent(firstRouteLoad); 
@@ -191,6 +198,7 @@ function router(route, render) {
                             renderRoute(parsedData)
                             getImports()
 
+                            handleStyles(parsedData)
                             handleScripts(parsedData)
 
                             window.dispatchEvent(routed); 
@@ -212,6 +220,7 @@ function router(route, render) {
                 renderRoute(TPMRouteData[routeIndex])
                 getImports()
                 window.dispatchEvent(routed);
+                handleStyles(TPMRouteData[routeIndex])
                 handleScripts(TPMRouteData[routeIndex])
             }
         }
@@ -275,7 +284,6 @@ function handleScripts(routeData) {
         }
 
 
-
             // exec code TODO
         const evaluated = Function(`${scriptMatches[1]}`)
         evaluated()
@@ -284,6 +292,19 @@ function handleScripts(routeData) {
         console.log("A route can have only 1 script tag");
     }
 }
+
+function handleStyles(routeData) {
+    const styleMatches = routeData.match(styleRegex)
+
+    if (!styleMatches || styleMatches.length <= 1) {
+        // no style tag
+        console.log('notag');
+    } else if (styleMatches && styleMatches.length <= 2)  {
+        document.head.insertAdjacentHTML('beforeend', `<style scoped>${styleMatches[1]}</style>`)
+    } else {
+        console.log("A route can have only 1 style tag");
+    }
+}   
 
 // custom router events
 const routing = new Event('routing');
