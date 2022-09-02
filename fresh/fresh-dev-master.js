@@ -140,10 +140,10 @@ function router(route, render) {
 
         window.dispatchEvent(routing);
 
-        document.head.querySelectorAll('[scoped]')
-        .forEach(scoped => {
-            scoped.remove()
-        });
+  //  SEEMS REDUNDANT     document.head.querySelectorAll('[scoped]')
+  //      .forEach(scoped => {
+   ///         scoped.remove()
+  //      });
 
         if (!config.fresh.router.storeRoutesInTPM) {
 
@@ -176,7 +176,7 @@ function router(route, render) {
                         getImports()
                         window.dispatchEvent(routed);
                     
-                        handleStyles(parsedData)
+                     //   handleStyles(parsedData)
                         handleScripts(parsedData)
 
                         window.dispatchEvent(firstRouteLoad); 
@@ -198,7 +198,7 @@ function router(route, render) {
                             renderRoute(parsedData)
                             getImports()
 
-                            handleStyles(parsedData)
+                     //       handleStyles(parsedData)
                             handleScripts(parsedData)
 
                             window.dispatchEvent(routed); 
@@ -220,7 +220,7 @@ function router(route, render) {
                 renderRoute(TPMRouteData[routeIndex])
                 getImports()
                 window.dispatchEvent(routed);
-                handleStyles(TPMRouteData[routeIndex])
+             //   handleStyles(TPMRouteData[routeIndex])
                 handleScripts(TPMRouteData[routeIndex])
             }
         }
@@ -293,6 +293,7 @@ function handleScripts(routeData) {
     }
 }
 
+/// SEEMS REDUNDANT
 function handleStyles(routeData) {
     const styleMatches = routeData.match(styleRegex)
 
